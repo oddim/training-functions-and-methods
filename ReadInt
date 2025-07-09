@@ -1,0 +1,29 @@
+using System;
+
+namespace ReadInt
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int outInt = 0;
+            string outString = null;
+
+            ConvertString(outString, out outInt);
+
+            Console.WriteLine("Конвертированное число " + outInt);
+        }
+        static void ConvertString (string inputString, out int outInt)
+        {
+            Console.Write("Введите число для конвертации в int: ");
+            
+            inputString = Console.ReadLine();
+            
+            bool result = int.TryParse(inputString, out outInt);
+            if (result == false)
+            {
+                ConvertString(inputString, out outInt);  
+            }
+        }
+    }
+}
