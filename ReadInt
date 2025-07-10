@@ -9,21 +9,32 @@ namespace ReadInt
             int outInt = 0;
             string outString = null;
 
-            ConvertString(outString, out outInt);
-
-            Console.WriteLine("Конвертированное число " + outInt);
-        }
-        static void ConvertString (string inputString, out int outInt)
-        {
-            Console.Write("Введите число для конвертации в int: ");
-            
-            inputString = Console.ReadLine();
-            
-            bool result = int.TryParse(inputString, out outInt);
-            if (result == false)
+            while(true)
             {
-                ConvertString(inputString, out outInt);  
+                Console.WriteLine("Конвертированное число " + ReadInt(outString, outInt));
             }
+        }
+        static int ReadInt(string inputString, int outInt)
+        {
+            bool isRead = true;
+
+            while (isRead)
+            {
+                Console.Write("Введите число для конвертации в int: ");
+
+                inputString = Console.ReadLine();
+
+                isRead = int.TryParse(inputString, out outInt);
+                if (isRead == true)
+                {
+                    isRead = false;
+                }
+                else
+                {
+                    isRead = true;
+                }
+            }
+                return outInt;  
         }
     }
 }
