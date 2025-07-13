@@ -1,0 +1,90 @@
+using System;
+
+namespace UIElement
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Введите здоровье в процентах ");
+            int valueHealt = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Введите ману в процентах ");
+            int valueMana = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Введите длину бара ");
+            int maxValue = Convert.ToInt32(Console.ReadLine());
+
+            int fullPersents = 100; 
+            
+            valueHealt = valueHealt * maxValue / fullPersents;
+            valueMana = valueMana * maxValue / fullPersents;
+            Console.SetCursorPosition(0, 10);
+            Console.WriteLine(valueHealt);
+            Console.WriteLine(valueMana);
+
+            Console.Clear();
+
+            DrawBar(valueHealt, valueMana, maxValue);
+        }
+        static void DrawBar(int valueHealth, int valueMana, int maxValue)
+        {
+            ConsoleColor defultColor = Console.BackgroundColor;
+
+            string bar = "";
+
+            for (int i = 1; i <= valueHealth; i++)
+            {
+                bar += " ";
+            }
+
+            Console.SetCursorPosition(0, 0);
+            Console.BackgroundColor = ConsoleColor.Green;
+            Console.Write(bar);
+            Console.BackgroundColor = defultColor;
+
+
+            bar = "";
+
+            for (int i = 1; i <= maxValue - valueHealth; i++)
+            {
+                bar += " ";
+            }
+
+            Console.SetCursorPosition(valueHealth, 0);
+            Console.BackgroundColor = ConsoleColor.Magenta;
+            Console.Write(bar);
+            Console.BackgroundColor = defultColor;
+
+            bar = "";
+
+            for (int i = 1; i <= valueMana; i++)
+            {
+                bar += " ";
+            }
+
+            Console.SetCursorPosition(0, 1);
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.Write(bar);
+            Console.BackgroundColor = defultColor;
+
+            bar = "";
+
+            for (int i = 1; i <= maxValue - valueMana; i++)
+            {
+                bar += " ";
+            }
+
+            Console.SetCursorPosition(valueMana, 1);
+            Console.BackgroundColor = ConsoleColor.Magenta;
+            Console.Write(bar);
+            Console.BackgroundColor = defultColor;
+
+            Console.SetCursorPosition(maxValue + 1, 0);
+            Console.Write("Health");
+
+            Console.SetCursorPosition(maxValue + 1, 1);
+            Console.Write("Mana");
+        }
+    }
+}
