@@ -1,75 +1,32 @@
 using System;
 
-namespace UIElement
+namespace ReadInt
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            bool isRun = true;
-
-            Console.WriteLine("Введите здоровье в процентах ");
-            isRun = int.TryParse(Console.ReadLine(), out var valueHealt); 
-
-            Console.WriteLine("Введите ману в процентах ");
-            isRun = int.TryParse(Console.ReadLine(), out var valueMana);
-
-            Console.WriteLine("Введите длину бара ");
-            isRun = int.TryParse(Console.ReadLine(), out var maxValue);
-
-            int fullPersents = 100;
-
-            valueHealt = valueHealt * maxValue / fullPersents;
-            valueMana = valueMana * maxValue / fullPersents;
-            Console.SetCursorPosition(0, 10);
-            Console.WriteLine(valueHealt);
-            Console.WriteLine(valueMana);
-
-            Console.Clear();
-
-            if (isRun == true)
+            while(true)
             {
-            DrawBar(valueHealt, maxValue,ConsoleColor.Green,0);
-            DrawBar(valueMana, maxValue,ConsoleColor.Blue,1);
-            }
-            else
-            {
-                Console.WriteLine("Введены неверные параметры");
+                Console.WriteLine("Конвертированное число " + ReadInt());
             }
         }
-        static void DrawBar(int value, int maxValue, ConsoleColor color , int position)
+        static int ReadInt()
         {
-            ConsoleColor defultColor = Console.BackgroundColor;
+            string inputString;
+            int outInt = 0;
 
-            string bar = "";
+            bool isRead = false;
 
-            for (int i = 1; i <= value; i++)
+            while (isRead == false)
             {
-                bar += " ";
+                Console.Write("Введите число для конвертации в int: ");
+
+                inputString = Console.ReadLine();
+
+                isRead = int.TryParse(inputString, out outInt);
             }
-
-            Console.SetCursorPosition(0, position);
-            Console.BackgroundColor = color;
-            Console.Write(bar);
-            Console.BackgroundColor = defultColor;
-
-            bar = "";
-
-            for (int i = 1; i <= maxValue - value; i++)
-            {
-                bar += " ";
-            }
-
-            Console.SetCursorPosition(value, position);
-            Console.BackgroundColor = ConsoleColor.Magenta;
-            Console.Write(bar);
-            Console.BackgroundColor = defultColor;
-
-            Console.SetCursorPosition(maxValue + 1, 0);
-            Console.Write("Health");
-
-            Console.SetCursorPosition(maxValue + 1, 1);
-            Console.Write("Mana");
+                return outInt;  
         }
     }
 }
