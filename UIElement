@@ -6,17 +6,19 @@ namespace UIElement
     {
         static void Main(string[] args)
         {
+            bool isRun = true;
+
             Console.WriteLine("Введите здоровье в процентах ");
-            int valueHealt = Convert.ToInt32(Console.ReadLine());
+            isRun = int.TryParse(Console.ReadLine(), out var valueHealt);
 
             Console.WriteLine("Введите ману в процентах ");
-            int valueMana = Convert.ToInt32(Console.ReadLine());
+            isRun = int.TryParse(Console.ReadLine(), out var valueMana);
 
             Console.WriteLine("Введите длину бара ");
-            int maxValue = Convert.ToInt32(Console.ReadLine());
+            isRun = int.TryParse(Console.ReadLine(), out var maxValue);
 
-            int fullPersents = 100; 
-            
+            int fullPersents = 100;
+
             valueHealt = valueHealt * maxValue / fullPersents;
             valueMana = valueMana * maxValue / fullPersents;
             Console.SetCursorPosition(0, 10);
@@ -25,58 +27,31 @@ namespace UIElement
 
             Console.Clear();
 
-            DrawBar(valueHealt, valueMana, maxValue);
+            if (isRun == true)
+            {
+                DrawBar(valueHealt, maxValue, ConsoleColor.Green,0, 0);
+                DrawBar(-(valueHealt - maxValue), maxValue, ConsoleColor.Magenta, valueHealt, 0);
+                DrawBar(valueMana, maxValue, ConsoleColor.Blue, 0,1);
+                DrawBar(-(valueMana - maxValue), maxValue, ConsoleColor.Magenta, valueMana, 1);
+            }
+            else
+            {
+                Console.WriteLine("Введены неверные параметры");
+            }
         }
-        static void DrawBar(int valueHealth, int valueMana, int maxValue)
+        static void DrawBar(int value, int maxValue, ConsoleColor color, int positionChar, int positionString)
         {
             ConsoleColor defultColor = Console.BackgroundColor;
 
             string bar = "";
 
-            for (int i = 1; i <= valueHealth; i++)
+            for (int i = 1; i <= value; i++)
             {
                 bar += " ";
             }
 
-            Console.SetCursorPosition(0, 0);
-            Console.BackgroundColor = ConsoleColor.Green;
-            Console.Write(bar);
-            Console.BackgroundColor = defultColor;
-
-
-            bar = "";
-
-            for (int i = 1; i <= maxValue - valueHealth; i++)
-            {
-                bar += " ";
-            }
-
-            Console.SetCursorPosition(valueHealth, 0);
-            Console.BackgroundColor = ConsoleColor.Magenta;
-            Console.Write(bar);
-            Console.BackgroundColor = defultColor;
-
-            bar = "";
-
-            for (int i = 1; i <= valueMana; i++)
-            {
-                bar += " ";
-            }
-
-            Console.SetCursorPosition(0, 1);
-            Console.BackgroundColor = ConsoleColor.Blue;
-            Console.Write(bar);
-            Console.BackgroundColor = defultColor;
-
-            bar = "";
-
-            for (int i = 1; i <= maxValue - valueMana; i++)
-            {
-                bar += " ";
-            }
-
-            Console.SetCursorPosition(valueMana, 1);
-            Console.BackgroundColor = ConsoleColor.Magenta;
+            Console.SetCursorPosition(positionChar, positionString);
+            Console.BackgroundColor = color;
             Console.Write(bar);
             Console.BackgroundColor = defultColor;
 
