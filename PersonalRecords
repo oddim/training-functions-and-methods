@@ -9,15 +9,17 @@ namespace PersonalRecords
             string[] recordsDossier = new string[0];
             string[] recordsPost = new string[0];
 
-            while (true)
+            bool isRun = true;
+
+            while (isRun)
             {
                 Console.SetCursorPosition(50, 5);
                 Console.WriteLine(@"Меню программы кадрового учета:  
                                                 1 - Добавить досье  
                                                 2 - Вывести все досье  
-                                                3 - удалить досье  
-                                                4 - поиск по фамилии  
-                                                5 - выход");
+                                                3 - Удалить досье  
+                                                4 - Поиск по фамилии  
+                                                5 - Выход");
 
                 Console.SetCursorPosition(50,0);
                 Console.Write("Введите номер пункта ");
@@ -58,6 +60,11 @@ namespace PersonalRecords
 
                         FindDossier(recordsDossier);
                         break;
+
+                     case "5":
+                        Console.Clear();
+                        isRun = false;
+                        continue;
                 }
 
                 if (recordsDossier.Length == 0)
