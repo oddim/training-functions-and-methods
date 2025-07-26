@@ -1,0 +1,128 @@
+using System;
+
+namespace PersonalRecords
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] recordsDossier = new string[0];
+            string[] recordsPost = new string[0];
+
+            while (true)
+            {
+                Console.SetCursorPosition(50, 5);
+                Console.WriteLine(@"Меню программы кадрового учета:  
+                                                1 - Добавить досье  
+                                                2 - Вывести все досье  
+                                                3 - удалить досье  
+                                                4 - поиск по фамилии  
+                                                5 - выход");
+
+                Console.SetCursorPosition(50,0);
+                Console.Write("Введите номер пункта ");
+                string menuItem = Console.ReadLine();
+
+                switch (menuItem)
+                {
+                    case "1":
+                        Console.Clear();
+
+                        Console.WriteLine("Введите ФИО");
+                        recordsDossier = AddDossier(recordsDossier);
+                        Console.WriteLine("Введите должность");
+                        recordsPost = AddDossier(recordsPost);
+
+                        Console.WriteLine("Досье добавлено");
+                        break;
+
+                    case "2":
+                        Console.Clear();
+
+                        OutputDossiers(recordsDossier, recordsPost);         
+                        break;
+
+                    case "3":
+                        Console.SetCursorPosition(0,recordsDossier.Length + 1);
+                        Console.WriteLine("Досье под каким номером хотите удалить?");
+
+                        int numberDossier = Convert.ToInt32(Console.ReadLine());
+
+                        DeleteDossier(ref recordsDossier, numberDossier);
+                        break;
+
+                     case "4":
+                        Console.Clear();
+
+                        Console.WriteLine("Введите фамилию для поиска");
+
+                        FindDossier(recordsDossier);
+                        break;
+                }
+
+                if (recordsDossier.Length == 0)
+                {
+                    Console.WriteLine("Список пуст");
+                }   
+            }   
+        }
+
+        static string[] AddDossier(string[] records)
+        {
+            string[] utilityRecords = new string [records.Length + 1];
+
+            for (int i = 0; i < records.Length; i++)
+            {
+                utilityRecords[i] = records[i];
+            }
+
+            utilityRecords[utilityRecords.Length - 1] = Console.ReadLine();
+            records = utilityRecords;
+
+            return records;
+        }
+
+        static void OutputDossiers(string[] recordsDossier, string[] recordsPost)
+        {
+
+            for (int i = 0; i < recordsDossier.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {recordsDossier[i]}  -  {recordsPost[i]} ");
+            }
+
+            Console.WriteLine("\n");
+        }
+        
+        static void DeleteDossier(ref string[] records, int numberDossier)
+        {
+            string[] utilityRecords = new string[records.Length - 1];
+
+            for (int i = 0; i < utilityRecords.Length; i++)
+            {
+                utilityRecords[i] = records[i];
+
+                if (numberDossier - 1 == i)
+                {
+                    for (int j = i; j < utilityRecords.Length; j++)
+                    {
+                        utilityRecords[j] = records[j + 1];
+                        i = utilityRecords.Length - 1;
+                    }
+                } 
+            }
+
+            records = utilityRecords;
+        }
+
+        static void FindDossier(string[] records)
+        {
+            string surnameFind = Console.ReadLine();
+
+            for (int i = 0; i < records.Length; i++)
+            {
+                if (records[i].ToLower().StartsWith(surnameFind.ToLower()))
+                    Console.WriteLine(records[i]);
+            }
+        }
+    }
+}
