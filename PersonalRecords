@@ -8,7 +8,7 @@ namespace PersonalRecords
         {
             string[] recordsDossier = new string[0];
             string[] recordsPost = new string[0];
-            string[] commands = { "1 - Добавить досье", "2 - Вывести все досье", "3 - Удалить досье", "4 - Поиск по фамилии", "5 - Выход" };
+            string[] commands = { "Добавить досье", "Вывести все досье", "Удалить досье", "Поиск по фамилии", "Выход" };
 
             bool isRun = true;
 
@@ -18,42 +18,31 @@ namespace PersonalRecords
             {
                 Console.Clear();
 
-                AccentItem(commands, null,out direction);
-  
-                string menuItem = Convert.ToString(direction + 1);              
+                AccentItem(commands, null, out direction);
+
+                string menuItem = Convert.ToString(direction + 1);
+
+                Console.Clear();
 
                 switch (menuItem)
                 {
                     case "1":
-                        Console.Clear();
-
-                        Console.WriteLine("Введите ФИО");
-                        recordsDossier = AddDossier(recordsDossier);
-                        Console.WriteLine("Введите должность");
-                        recordsPost = AddDossier(recordsPost);
-
-                        Console.WriteLine("Досье добавлено");
-
-                        Console.ReadKey();
-                        Console.Clear();
+                        
+                        AddDossier(ref recordsDossier, ref recordsPost);
+                        
                         break;
 
                     case "2":
-                        Console.Clear();
-
                         OutputDossiers(recordsDossier, recordsPost);
-                        
+
                         break;
 
                     case "3":
-                        Console.Clear();
-
                         DeleteDossier(ref recordsDossier, ref recordsPost);
-                        
+
                         break;
 
                     case "4":
-                        Console.Clear();
 
                         Console.WriteLine("Введите фамилию для поиска");
 
@@ -61,27 +50,19 @@ namespace PersonalRecords
                         break;
 
                     case "5":
-                        Console.Clear();
 
                         isRun = false;
                         continue;
                 }
-
-                if (recordsDossier.Length == 0)
-                {
-                    Console.Clear();   
-
-                    Console.WriteLine("Список пуст");
-                }
-            }   
+            }
         }
 
-        static void AccentItem (string[] items1, string[] items2,out int direction)
+        static void AccentItem(string[] items1, string[] items2, out int direction)
         {
             direction = 0;
 
             ConsoleKeyInfo pressedKey = new ConsoleKeyInfo();
-           
+
             while (pressedKey.Key != ConsoleKey.Enter)
             {
                 for (int i = 0; i < items1.Length; i++)
@@ -104,13 +85,13 @@ namespace PersonalRecords
 
                         if (items2 == null)
                         {
-                            Console.WriteLine(items1[i]);
+                            Console.WriteLine(($"{i + 1} - {items1[i]} "));
                         }
                         else
                         {
                             Console.WriteLine($"{i + 1}. {items1[i]}  -  {items2[i]} ");
                         }
-                        
+
                         Console.BackgroundColor = defultColor2;
                         Console.ForegroundColor = defultColor;
                     }
@@ -118,12 +99,11 @@ namespace PersonalRecords
                     {
                         if (items2 == null)
                         {
-                            Console.WriteLine(items1[i]);
+                            Console.WriteLine($"{i + 1} - {items1[i]} ");
                         }
                         else
                         {
                             Console.WriteLine($"{i + 1}. {items1[i]}  -  {items2[i]} ");
-
                         }
 
                     }
@@ -134,20 +114,36 @@ namespace PersonalRecords
                 if (pressedKey.Key == ConsoleKey.DownArrow)
                 {
                     direction += 1;
+
                     Console.Clear();
                 }
                 else if (pressedKey.Key == ConsoleKey.UpArrow)
                 {
                     direction -= 1;
+
                     Console.Clear();
                 }
-
             }
         }
 
-        static string[] AddDossier(string[] records)
+        static void AddDossier(ref string[] recordsDossier, ref string[] recordPost)
         {
-            string[] utilityRecords = new string [records.Length + 1];
+            Console.WriteLine("Введите ФИО");
+             recordsDossier = AddElement(recordsDossier);
+
+            Console.WriteLine("Введите должность");
+            recordPost = AddElement(recordPost);
+
+            Console.WriteLine("Досье добавлено");
+
+            Console.ReadKey();
+
+            Console.Clear();
+        }
+
+        static string[] AddElement(string[] records)
+        {
+            string[] utilityRecords = new string[records.Length + 1];
 
             for (int i = 0; i < records.Length; i++)
             {
@@ -162,58 +158,96 @@ namespace PersonalRecords
 
         static void OutputDossiers(string[] recordsDossier, string[] recordsPost)
         {
-            for (int i = 0; i < recordsDossier.Length; i++)
+            if (recordsDossier.Length > 0)
             {
-                Console.WriteLine($"{i + 1}. {recordsDossier[i]}  -  {recordsPost[i]} ");
+
+                for (int i = 0; i < recordsDossier.Length; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {recordsDossier[i]}  -  {recordsPost[i]} ");
+                }
+
+                Console.WriteLine("\n");
+
+                Console.ReadKey();
+
+                Console.Clear();
             }
+            else
+            {
+                Console.Clear();
 
-            Console.WriteLine("\n");
-
-            Console.ReadKey();
-            Console.Clear();
+                Console.WriteLine("Список пуст");
+            }
         }
 
-        static void DeleteDossier(ref string[] recordsDossier, ref string[] recordsPost )
+        static void DeleteDossier(ref string[] recordsDossier, ref string[] recordsPost)
         {
-            int direction = 0;
+            if (recordsDossier.Length > 0)
+            {
+                int direction = 0;
 
-            AccentItem(recordsDossier, recordsPost, out direction);
+                AccentItem(recordsDossier, recordsPost, out direction);
 
-            int numberDossier = direction;
+                int numberDeleted = direction;
 
-            string[] utilityRecordsDossier = new string[recordsDossier.Length - 1];
-            string[] utilityRecordsPost = new string[recordsPost.Length - 1];
+                Console.SetCursorPosition((recordsDossier[numberDeleted].Length + recordsPost[numberDeleted].Length + 10), direction);
+                Console.Write(" < удалено");
 
-            for (int i = 0, j = 0; i < recordsDossier.Length; i++)
+                DeleteElement(ref recordsDossier, direction);
+                DeleteElement(ref recordsPost, direction);
+
+
+                Console.ReadKey();
+
+                Console.Clear();
+            }
+            else
+            {
+                Console.Clear();
+
+                Console.WriteLine("Список пуст");
+            }
+        }
+            
+            
+
+        static void DeleteElement(ref string[] records,  int numberDossier)
+        {
+ 
+            string[] utilityRecords = new string[records.Length - 1];
+
+            for (int i = 0, j = 0; i < records.Length; i++)
             {
                 if (i == numberDossier)
                     continue;
 
-                utilityRecordsDossier[j] = recordsDossier[i];
-                utilityRecordsPost[j] = recordsPost[i];
+                utilityRecords[j] = records[i];
                 j++;
             }
 
-            Console.SetCursorPosition((recordsDossier[direction].Length + recordsPost[direction].Length + 10),recordsDossier.Length - 1);
-            Console.Write(" < удалено");
-
-            recordsDossier = utilityRecordsDossier;
-            recordsPost = utilityRecordsPost;
-
-            Console.ReadKey();
-            Console.Clear();
+            records = utilityRecords;
         }
 
         static void FindDossier(string[] recordsDossier, string[] recordsPost)
         {
-            string surnameFind = Console.ReadLine();
-
-            for (int i = 0; i < recordsDossier.Length; i++)
+            if (recordsDossier.Length > 0)
             {
-                if (recordsDossier[i].ToLower().StartsWith(surnameFind.ToLower()))
-                    Console.WriteLine($"{recordsDossier[i]} - {recordsPost[i]}");
+                string surnameFind = Console.ReadLine();
+
+                for (int i = 0; i < recordsDossier.Length; i++)
+                {
+                    if (recordsDossier[i].ToLower().StartsWith(surnameFind.ToLower()))
+                        Console.WriteLine($"{recordsDossier[i]} - {recordsPost[i]}");
+                }
+
+                Console.ReadKey();
             }
-            Console.ReadKey();
+            else
+            {
+                Console.Clear();
+
+                Console.WriteLine("Список пуст");
+            }
         }
     }
 }
