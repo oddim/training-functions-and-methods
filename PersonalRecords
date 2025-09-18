@@ -27,30 +27,22 @@ namespace PersonalRecords
                 switch (menuItem)
                 {
                     case "1":
-                        
                         AddDossier(ref recordsDossier, ref recordsPost);
-                        
                         break;
 
                     case "2":
                         OutputDossiers(recordsDossier, recordsPost);
-
                         break;
 
                     case "3":
                         DeleteDossier(ref recordsDossier, ref recordsPost);
-
                         break;
 
                     case "4":
-
-                        Console.WriteLine("Введите фамилию для поиска");
-
                         FindDossier(recordsDossier, recordsPost);
                         break;
 
                     case "5":
-
                         isRun = false;
                         continue;
                 }
@@ -129,7 +121,7 @@ namespace PersonalRecords
         static void AddDossier(ref string[] recordsDossier, ref string[] recordPost)
         {
             Console.WriteLine("Введите ФИО");
-             recordsDossier = AddElement(recordsDossier);
+            recordsDossier = AddElement(recordsDossier);
 
             Console.WriteLine("Введите должность");
             recordPost = AddElement(recordPost);
@@ -160,7 +152,6 @@ namespace PersonalRecords
         {
             if (recordsDossier.Length > 0)
             {
-
                 for (int i = 0; i < recordsDossier.Length; i++)
                 {
                     Console.WriteLine($"{i + 1}. {recordsDossier[i]}  -  {recordsPost[i]} ");
@@ -177,6 +168,8 @@ namespace PersonalRecords
                 Console.Clear();
 
                 Console.WriteLine("Список пуст");
+
+                Console.ReadKey();
             }
         }
 
@@ -196,7 +189,6 @@ namespace PersonalRecords
                 DeleteElement(ref recordsDossier, direction);
                 DeleteElement(ref recordsPost, direction);
 
-
                 Console.ReadKey();
 
                 Console.Clear();
@@ -206,6 +198,8 @@ namespace PersonalRecords
                 Console.Clear();
 
                 Console.WriteLine("Список пуст");
+
+                Console.ReadKey();
             }
         }
             
@@ -213,7 +207,6 @@ namespace PersonalRecords
 
         static void DeleteElement(ref string[] records,  int numberDossier)
         {
- 
             string[] utilityRecords = new string[records.Length - 1];
 
             for (int i = 0, j = 0; i < records.Length; i++)
@@ -232,6 +225,8 @@ namespace PersonalRecords
         {
             if (recordsDossier.Length > 0)
             {
+                Console.WriteLine("Введите фамилию для поиска");
+
                 string surnameFind = Console.ReadLine();
 
                 for (int i = 0; i < recordsDossier.Length; i++)
@@ -247,6 +242,8 @@ namespace PersonalRecords
                 Console.Clear();
 
                 Console.WriteLine("Список пуст");
+
+                Console.ReadKey();
             }
         }
     }
