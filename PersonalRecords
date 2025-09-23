@@ -77,7 +77,7 @@ namespace PersonalRecords
 
                         if (items2 == null)
                         {
-                            Console.WriteLine(($"{i + 1} - {items1[i]} "));
+                            Console.WriteLine(items1[i]);
                         }
                         else
                         {
@@ -91,25 +91,26 @@ namespace PersonalRecords
                     {
                         if (items2 == null)
                         {
-                            Console.WriteLine($"{i + 1} - {items1[i]} ");
+                            Console.WriteLine(items1[i]);
                         }
                         else
                         {
                             Console.WriteLine($"{i + 1}. {items1[i]}  -  {items2[i]} ");
                         }
-
                     }
                 }
 
                 pressedKey = Console.ReadKey();
+                ConsoleKey moveDownCommand = ConsoleKey.DownArrow;
+                ConsoleKey moveUpCommand = ConsoleKey.UpArrow;
 
-                if (pressedKey.Key == ConsoleKey.DownArrow)
+                if (pressedKey.Key == moveDownCommand)
                 {
                     direction += 1;
 
                     Console.Clear();
                 }
-                else if (pressedKey.Key == ConsoleKey.UpArrow)
+                else if (pressedKey.Key == moveUpCommand)
                 {
                     direction -= 1;
 
@@ -203,19 +204,18 @@ namespace PersonalRecords
             }
         }
             
-            
-
         static void DeleteElement(ref string[] records,  int numberDossier)
         {
             string[] utilityRecords = new string[records.Length - 1];
 
-            for (int i = 0, j = 0; i < records.Length; i++)
+            for (int i = 0; i < numberDossier; i++)
             {
-                if (i == numberDossier)
-                    continue;
+                utilityRecords[i] = records[i];
+            }
 
-                utilityRecords[j] = records[i];
-                j++;
+            for (int i = numberDossier; i < utilityRecords.Length; i++)
+            {
+                utilityRecords[i] = records[i+1];
             }
 
             records = utilityRecords;
