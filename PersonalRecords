@@ -10,6 +10,13 @@ namespace PersonalRecords
             string[] recordsPost = new string[0];
             string[] commands = { "Добавить досье", "Вывести все досье", "Удалить досье", "Поиск по фамилии", "Выход" };
 
+            const string CommandAddDossier = "1";
+            const string CommandOutputDossiers = "2";
+            const string CommandDeleteDossier = "3";
+            const string CommandFindDossier = "4";
+            const string CommandExit = "5";
+
+
             bool isRun = true;
 
             int direction = 0;
@@ -18,7 +25,7 @@ namespace PersonalRecords
             {
                 Console.Clear();
 
-                AccentItem(commands, null, out direction);
+                direction = AccentItem(commands, null, direction);
 
                 string menuItem = Convert.ToString(direction + 1);
 
@@ -26,30 +33,30 @@ namespace PersonalRecords
 
                 switch (menuItem)
                 {
-                    case "1":
+                    case CommandAddDossier:
                         AddDossier(ref recordsDossier, ref recordsPost);
                         break;
 
-                    case "2":
+                    case CommandOutputDossiers:
                         OutputDossiers(recordsDossier, recordsPost);
                         break;
 
-                    case "3":
+                    case CommandDeleteDossier:
                         DeleteDossier(ref recordsDossier, ref recordsPost);
                         break;
 
-                    case "4":
+                    case CommandFindDossier:
                         FindDossier(recordsDossier, recordsPost);
                         break;
 
-                    case "5":
+                    case CommandExit:
                         isRun = false;
                         continue;
                 }
             }
         }
 
-        static void AccentItem(string[] items1, string[] items2, out int direction)
+        static int AccentItem(string[] items1, string[] items2, int direction)
         {
             direction = 0;
 
@@ -117,6 +124,8 @@ namespace PersonalRecords
                     Console.Clear();
                 }
             }
+
+            return direction;
         }
 
         static void AddDossier(ref string[] recordsDossier, ref string[] recordPost)
@@ -180,7 +189,7 @@ namespace PersonalRecords
             {
                 int direction = 0;
 
-                AccentItem(recordsDossier, recordsPost, out direction);
+                direction = AccentItem(recordsDossier, recordsPost, direction);
 
                 int numberDeleted = direction;
 
@@ -203,8 +212,8 @@ namespace PersonalRecords
                 Console.ReadKey();
             }
         }
-            
-        static void DeleteElement(ref string[] records,  int numberDossier)
+
+        static void DeleteElement(ref string[] records, int numberDossier)
         {
             string[] utilityRecords = new string[records.Length - 1];
 
@@ -215,7 +224,7 @@ namespace PersonalRecords
 
             for (int i = numberDossier; i < utilityRecords.Length; i++)
             {
-                utilityRecords[i] = records[i+1];
+                utilityRecords[i] = records[i + 1];
             }
 
             records = utilityRecords;
