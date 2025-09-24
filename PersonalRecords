@@ -6,16 +6,15 @@ namespace PersonalRecords
     {
         static void Main(string[] args)
         {
-            string[] recordsDossier = new string[0];
-            string[] recordsPost = new string[0];
-            string[] commands = { "Добавить досье", "Вывести все досье", "Удалить досье", "Поиск по фамилии", "Выход" };
-
             const string CommandAddDossier = "1";
             const string CommandOutputDossiers = "2";
             const string CommandDeleteDossier = "3";
             const string CommandFindDossier = "4";
             const string CommandExit = "5";
 
+            string[] recordsDossier = new string[0];
+            string[] recordsPost = new string[0];
+            string[] commands = { "Добавить досье", "Вывести все досье", "Удалить досье", "Поиск по фамилии", "Выход" };
 
             bool isRun = true;
 
@@ -25,7 +24,7 @@ namespace PersonalRecords
             {
                 Console.Clear();
 
-                direction = AccentItem(commands, null, direction);
+                direction = SelectionItemsDisplay (commands, null, direction);
 
                 string menuItem = Convert.ToString(direction + 1);
 
@@ -46,7 +45,7 @@ namespace PersonalRecords
                         break;
 
                     case CommandFindDossier:
-                        FindDossier(recordsDossier, recordsPost);
+                        SearchSurname(recordsDossier, recordsPost);
                         break;
 
                     case CommandExit:
@@ -56,7 +55,7 @@ namespace PersonalRecords
             }
         }
 
-        static int AccentItem(string[] items1, string[] items2, int direction)
+        static int SelectionItemsDisplay (string[] itemsDisplay1, string[] itemsDisplay2, int direction)
         {
             direction = 0;
 
@@ -64,15 +63,15 @@ namespace PersonalRecords
 
             while (pressedKey.Key != ConsoleKey.Enter)
             {
-                for (int i = 0; i < items1.Length; i++)
+                for (int i = 0; i < itemsDisplay1.Length; i++)
                 {
-                    if (items1.Length == direction)
+                    if (itemsDisplay1.Length == direction)
                     {
                         direction = 0;
                     }
                     else if (direction == -1)
                     {
-                        direction = items1.Length - 1;
+                        direction = itemsDisplay1.Length - 1;
                     }
 
                     if (i == direction)
@@ -82,13 +81,13 @@ namespace PersonalRecords
                         Console.BackgroundColor = ConsoleColor.Gray;
                         Console.ForegroundColor = ConsoleColor.Red;
 
-                        if (items2 == null)
+                        if (itemsDisplay2 == null)
                         {
-                            Console.WriteLine(items1[i]);
+                            Console.WriteLine(itemsDisplay1[i]);
                         }
                         else
                         {
-                            Console.WriteLine($"{i + 1}. {items1[i]}  -  {items2[i]} ");
+                            Console.WriteLine($"{i + 1}. {itemsDisplay1[i]}  -  {itemsDisplay2[i]} ");
                         }
 
                         Console.BackgroundColor = defultColor2;
@@ -96,13 +95,13 @@ namespace PersonalRecords
                     }
                     else
                     {
-                        if (items2 == null)
+                        if (itemsDisplay2 == null)
                         {
-                            Console.WriteLine(items1[i]);
+                            Console.WriteLine(itemsDisplay1[i]);
                         }
                         else
                         {
-                            Console.WriteLine($"{i + 1}. {items1[i]}  -  {items2[i]} ");
+                            Console.WriteLine($"{i + 1}. {itemsDisplay1[i]}  -  {itemsDisplay2[i]} ");
                         }
                     }
                 }
@@ -189,15 +188,15 @@ namespace PersonalRecords
             {
                 int direction = 0;
 
-                direction = AccentItem(recordsDossier, recordsPost, direction);
+                direction = SelectionItemsDisplay(recordsDossier, recordsPost, direction);
 
                 int numberDeleted = direction;
 
                 Console.SetCursorPosition((recordsDossier[numberDeleted].Length + recordsPost[numberDeleted].Length + 10), direction);
                 Console.Write(" < удалено");
 
-                DeleteElement(ref recordsDossier, direction);
-                DeleteElement(ref recordsPost, direction);
+                recordsDossier = DeleteElement(recordsDossier, direction);
+                recordsPost = DeleteElement(recordsPost, direction);
 
                 Console.ReadKey();
 
@@ -213,7 +212,7 @@ namespace PersonalRecords
             }
         }
 
-        static void DeleteElement(ref string[] records, int numberDossier)
+        static string[] DeleteElement(string[] records, int numberDossier)
         {
             string[] utilityRecords = new string[records.Length - 1];
 
@@ -228,9 +227,10 @@ namespace PersonalRecords
             }
 
             records = utilityRecords;
+            return records;
         }
 
-        static void FindDossier(string[] recordsDossier, string[] recordsPost)
+        static void SearchSurname(string[] recordsDossier, string[] recordsPost)
         {
             if (recordsDossier.Length > 0)
             {
