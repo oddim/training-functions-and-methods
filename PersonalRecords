@@ -9,7 +9,7 @@ namespace PersonalRecords
             const string CommandAddDossier = "1";
             const string CommandOutputDossiers = "2";
             const string CommandDeleteDossier = "3";
-            const string CommandFindDossier = "4";
+            const string CommandSearchSurname = "4";
             const string CommandExit = "5";
 
             string[] recordsDossier = new string[0];
@@ -44,7 +44,7 @@ namespace PersonalRecords
                         DeleteDossier(ref recordsDossier, ref recordsPost);
                         break;
 
-                    case CommandFindDossier:
+                    case CommandSearchSurname:
                         SearchSurname(recordsDossier, recordsPost);
                         break;
 
