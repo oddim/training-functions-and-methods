@@ -7,6 +7,8 @@ namespace Bravenewworld
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
+            
+            const ConsoleKey ExitProgramm = ConsoleKey.Escape;
 
             int lengthXMap = 40;
             int lengthYmap = 20;
@@ -34,7 +36,7 @@ namespace Bravenewworld
                 Console.SetCursorPosition(userX, userY);
                 Console.Write(userSlave);
 
-                if (pressedKey.Key == ConsoleKey.Escape)
+                if (pressedKey.Key == ExitProgramm)
                 { 
                     isRun = false;
 
@@ -45,7 +47,7 @@ namespace Bravenewworld
 
                 pressedKey = Console.ReadKey();
 
-                CheckStep(pressedKey, ref userX, ref userY, map);
+                ResearchPath(pressedKey, ref userX, ref userY, map);
             }
         }
 
@@ -99,7 +101,7 @@ namespace Bravenewworld
             Console.ForegroundColor = defultColor;
         }
 
-        private static void CheckStep (ConsoleKeyInfo pressedKey, ref int userX, ref int userY, char[,] map)
+        private static void ResearchPath(ConsoleKeyInfo pressedKey, ref int userX, ref int userY, char[,] map)
         {
             int[] direction = GetDirection(pressedKey);
 
@@ -108,11 +110,11 @@ namespace Bravenewworld
 
             if (nextUserPositionX >= 0 && nextUserPositionX < map.GetLength(0) && nextUserPositionY >= 0 && nextUserPositionY < map.GetLength(1) && map[nextUserPositionX, nextUserPositionY] == ' ')
             {
-                StepMap(nextUserPositionX, nextUserPositionY, ref userX, ref userY, map);
+                MoveUser(nextUserPositionX, nextUserPositionY, ref userX, ref userY, map);
             }
         }
 
-        private static void StepMap( int nextUserPositionX, int nextUserPositionY, ref int userX, ref int userY, char[,] map)
+        private static void MoveUser( int nextUserPositionX, int nextUserPositionY, ref int userX, ref int userY, char[,] map)
         {
             userX = nextUserPositionX;
             userY = nextUserPositionY;
@@ -120,20 +122,20 @@ namespace Bravenewworld
 
         private static int[] GetDirection(ConsoleKeyInfo pressedKey)
         {
-            const ConsoleKey upStep = ConsoleKey.UpArrow;
-            const ConsoleKey downStep = ConsoleKey.DownArrow;
-            const ConsoleKey leftStep = ConsoleKey.LeftArrow;
-            const ConsoleKey rightStep = ConsoleKey.RightArrow;
+            const ConsoleKey UpStep = ConsoleKey.UpArrow;
+            const ConsoleKey DownStep = ConsoleKey.DownArrow;
+            const ConsoleKey LeftStep = ConsoleKey.LeftArrow;
+            const ConsoleKey RightStep = ConsoleKey.RightArrow;
 
             int[] direction = {0,0};
 
-            if (pressedKey.Key == upStep)
+            if (pressedKey.Key == UpStep)
                 direction[1] = -1;
-            else if (pressedKey.Key == downStep)
+            else if (pressedKey.Key == DownStep)
                 direction[1] = 1;
-            else if (pressedKey.Key == leftStep)
+            else if (pressedKey.Key == LeftStep)
                 direction[0] = -1;
-            else if (pressedKey.Key == rightStep)
+            else if (pressedKey.Key == RightStep)
                 direction[0] = 1;
 
             return direction;
